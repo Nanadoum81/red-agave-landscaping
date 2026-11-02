@@ -1,0 +1,47 @@
+# Red Agave Landscaping
+
+> Family-owned residential landscaping company in Phoenix, Arizona (legal name: RED AGAVE LANDSCAPING LLC), serving Valley homeowners since 2008. Red Agave designs, installs, and maintains desert-smart residential yards across the Phoenix metropolitan area. Every project starts with a free on-site estimate and a written proposal; the owner scopes each project in person.
+
+## Contact and hours
+
+- Phone: (623) 320-6940
+- Email: red.agave.land@gmail.com
+- Address: 1217 E Almeria Rd, Phoenix, AZ
+- Hours: Monday to Friday, 7:00 AM to 4:00 PM
+- Book a free on-site estimate: https://red-agavelandscaping.vercel.app/book.html
+
+## Services
+
+- Landscape Design and Installation
+- Irrigation and Sprinklers
+- Pavers and Hardscaping
+- Desert and Xeriscape Conversions
+- Artificial Turf
+- Yard Cleanups and Haul-Away
+- Tree and Palm Trimming
+- Monthly Maintenance
+
+## Service area
+
+Phoenix, Ahwatukee, Chandler, Paradise Valley, Peoria, Glendale, Surprise, and Anthem, Arizona.
+
+## Key facts
+
+- Free on-site estimates: the visit and the written proposal cost nothing and carry no obligation. A typical estimate visit takes about 30 minutes.
+- Founded 2008; family-owned and locally operated in the Phoenix metro.
+- Desert-first approach: xeriscape conversions, drip irrigation, and planting matched to sun and soil so yards hold up in Arizona heat and use less water.
+- Monthly maintenance plans keep installed yards trimmed, weed-free, and irrigated correctly.
+- The owner scopes projects in person; the crew that starts a job finishes it, and debris is hauled away.
+
+## Pages
+
+- [Home](https://red-agavelandscaping.vercel.app/): overview, before-and-after sliders of real projects, and answers to common questions
+- [Services](https://red-agavelandscaping.vercel.app/services.html): the eight services in detail
+- [Gallery](https://red-agavelandscaping.vercel.app/gallery.html): real Red Agave project photos
+- [About Jose](https://red-agavelandscaping.vercel.app/about.html): how the company works and why it started
+- [Book a Free On-Site Estimate](https://red-agavelandscaping.vercel.app/book.html): booking calendar and estimate form
+
+## Social
+
+- Instagram: https://www.instagram.com/redagavelandscapingaz
+- Facebook: https://www.facebook.com/RedAgaveLandscaping
