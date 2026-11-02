@@ -314,3 +314,34 @@ p{margin:0 0 1em}
   .footer-in{padding-top:66px;padding-bottom:52px;gap:46px}
   .footer-bottom .wrap{gap:12px 26px}
 }
+
+/* ============================================================
+   Footer condense pass 2026-11-02b (owner feedback round 2:
+   footer height too tall — tighten the air back down, split
+   Popular Services into two even columns of four, condense
+   Get Started. Supersedes the spacing pass above where they
+   conflict.)
+   ============================================================ */
+.site-footer{line-height:1.5}
+.footer-in{padding-top:46px;padding-bottom:34px;gap:42px}
+.site-footer h3{margin-bottom:12px}
+.site-footer ul{gap:8px}
+.site-footer li{line-height:1.45}
+.footer-brand p{line-height:1.6}
+.footer-brand .brand{margin-bottom:14px}
+.footer-bottom{padding-top:16px;padding-bottom:16px}
+.footer-services ul{grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,auto);grid-auto-flow:column;column-gap:28px;row-gap:8px}
+.footer-start ul{gap:6px}
+.footer-start li{line-height:1.4}
+@media (min-width:1021px){
+  .footer-in{grid-template-columns:1.3fr .72fr 1.55fr 1fr}
+}
+@media (min-width:761px){
+  .footer-in > *:not(.footer-brand){padding-left:26px}
+}
+@media (max-width:1020px){
+  .footer-in{gap:34px 44px}
+}
+@media (max-width:760px){
+  .footer-in{padding-top:40px;padding-bottom:30px;gap:30px}
+}
