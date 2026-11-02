@@ -125,7 +125,7 @@
     var raTargets = document.querySelectorAll(
       '.section-head, .hero-form-card, .page-hero-in, .trustbar-in, ' +
       '.card, .value, .step, .ba-pair, .gallery-grid figure, ' +
-      '.svc, .split > *, .faq details, .booking-note'
+      '.svc, .split > *, .faq details, .booking-note, .ss-card'
     );
     var raCounts = new Map();
     raTargets.forEach(function (el) {
@@ -173,6 +173,40 @@
       });
     }
   }
+
+  // Before/after drag sliders: range input drives a clip reveal.
+  // On first scroll into view the handle sweeps once to invite a
+  // drag (skipped for reduced motion or after any interaction).
+  document.querySelectorAll('[data-ba-slider]').forEach(function (box) {
+    var range = box.querySelector('.ba-range');
+    if (!range) return;
+    var touched = false;
+    var setPos = function (v) { box.style.setProperty('--pos', v + '%'); };
+    setPos(range.value);
+    range.addEventListener('input', function () { touched = true; setPos(range.value); });
+    range.addEventListener('pointerdown', function () { touched = true; });
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          io.disconnect();
+          var start = null;
+          var sweep = function (ts) {
+            if (touched) return;
+            if (!start) start = ts;
+            var t = Math.min((ts - start) / 1900, 1);
+            var pos = 50 + Math.sin(t * Math.PI) * 27;
+            setPos(pos.toFixed(1));
+            range.value = pos;
+            if (t < 1) requestAnimationFrame(sweep);
+          };
+          requestAnimationFrame(sweep);
+        });
+      }, { threshold: 0.35 });
+      io.observe(box);
+    }
+  });
 
   // Footer year
   var year = document.querySelector('[data-year]');

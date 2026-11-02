@@ -378,3 +378,66 @@ p{margin:0 0 1em}
 /* Footer social row 2026-11-02: icons centered under the footer columns */
 .footer-social-row{padding:2px 22px 24px}
 .footer-social-row .wrap{display:flex;justify-content:center;padding:0}
+
+/* Footer social colors 2026-11-02 (Emmanuel): orange at rest, white on hover/touch */
+.footer-social a{background:#bf5527;border-color:#bf5527;color:#fff}
+.footer-social a:hover,.footer-social a:focus-visible{background:#fff;border-color:#fff;color:#bf5527}
+
+/* ============================================================
+   Before/after drag slider 2026-11-02 (Jose's real project
+   photos): full-width comparison with a draggable handle and
+   a one-time intro sweep driven from main.js.
+   ============================================================ */
+.ba-slider{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:16/10;--pos:50%;background:#0f2318}
+.ba-slider .ba-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ba-slider .ba-after-wrap{position:absolute;inset:0;clip-path:inset(0 0 0 var(--pos))}
+.ba-slider .ba-tag{z-index:3}
+.ba-slider .ba-tag.after{left:auto;right:12px}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:#fff;z-index:4;box-shadow:0 0 0 1px rgba(0,0,0,.18);pointer-events:none}
+.ba-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--terra);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;letter-spacing:1px;box-shadow:0 5px 16px rgba(0,0,0,.4)}
+.ba-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:5;-webkit-appearance:none;appearance:none;background:transparent}
+.ba-range:focus-visible{opacity:1;outline:3px solid rgba(191,85,39,.7);outline-offset:-3px}
+.ba-caption-wide{margin-top:14px;border-radius:0 0 var(--radius) var(--radius)}
+@media (max-width:760px){
+  .ba-slider{aspect-ratio:4/3.4}
+  .ba-knob{width:42px;height:42px;font-size:15px}
+}
+
+/* ============================================================
+   Project step-by-step crossfade slideshows 2026-11-02
+   (Jose's real project photos, added on top of the parallel
+   integration): pure CSS crossfade + slow zoom per frame, in
+   the site's existing motion language. Cards also join the
+   existing scroll-reveal system via main.js. Hover pauses.
+   ============================================================ */
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.ss-card{margin:0;border-radius:var(--radius);overflow:hidden;position:relative;box-shadow:0 8px 26px rgba(15,35,24,.10);background:var(--green-950)}
+.ss-frame{position:relative;aspect-ratio:3/3.4;overflow:hidden}
+.ss-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.ss-card figcaption{position:absolute;left:0;right:0;bottom:0;z-index:3;background:linear-gradient(transparent,rgba(15,35,24,.9));color:#fff;padding:38px 18px 14px;font-weight:700}
+@keyframes ra-ss3{0%{opacity:0;transform:scale(1)}5%{opacity:1}30%{opacity:1}38%{opacity:0;transform:scale(1.07)}100%{opacity:0;transform:scale(1.07)}}
+@keyframes ra-ss2{0%{opacity:0;transform:scale(1)}7%{opacity:1}44%{opacity:1}56%{opacity:0;transform:scale(1.07)}100%{opacity:0;transform:scale(1.07)}}
+.ss-3 .ss-frame img{animation:ra-ss3 15s ease-in-out infinite}
+.ss-2 .ss-frame img{animation:ra-ss2 10s ease-in-out infinite}
+.ss-card:hover .ss-frame img{animation-play-state:paused}
+@media (max-width:760px){.project-grid{grid-template-columns:1fr}.ss-frame{aspect-ratio:3/3.2}}
+
+/* Page heroes get the same slow Ken Burns drift as the home hero */
+.page-hero .hero-media img{animation:ra-kenburns 26s ease-in-out infinite alternate;will-change:transform}
+
+@media (prefers-reduced-motion:reduce){
+  .ss-2 .ss-frame img,.ss-3 .ss-frame img{animation:none;opacity:0}
+  .ss-2 .ss-frame img:last-child,.ss-3 .ss-frame img:last-child{opacity:1}
+  .page-hero .hero-media img{animation:none}
+}
+
+/* Official Red Agave logo 2026-11-02 (emblem from Jose's
+   business card, declared official by Emmanuel): transparent
+   PNG beside the wordmark — large in the nav, not oversized. */
+.brand-logo{height:58px;width:auto;display:block;transition:transform .25s ease}
+.brand:hover .brand-logo{transform:scale(1.04)}
+.footer-brand .brand-logo{height:52px}
+@media (max-width:760px){
+  .brand-logo{height:46px}
+  .footer-brand .brand-logo{height:44px}
+}
