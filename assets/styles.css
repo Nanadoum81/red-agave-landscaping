@@ -368,3 +368,9 @@ p{margin:0 0 1em}
 @media (max-width:760px){
   .site-footer .wrap{padding-left:12px;padding-right:12px}
 }
+
+/* Footer social links 2026-11-02: Instagram + Facebook icons, bottom bar */
+.footer-social{display:flex;gap:12px;align-items:center}
+.footer-social a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid rgba(233,220,192,.35);border-radius:50%;color:#c9d6c2;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.footer-social a:hover{background:#bf5527;border-color:#bf5527;color:#fff;text-decoration:none}
+.footer-social svg{width:20px;height:20px;display:block}
