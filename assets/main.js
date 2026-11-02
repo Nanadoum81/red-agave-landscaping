@@ -24,25 +24,92 @@
     });
   }
 
-  // Estimate forms: front-end submit with confirmation state.
-  // At launch this posts to the Red Agave lead form in HighLevel.
+  // Estimate forms: post the lead to the Red Agave HighLevel workflow
+  // "Website Form to Pipeline" via its inbound webhook. The workflow maps
+  // first_name, last_name, phone and email from the QUERY STRING, so those
+  // four always ride as query parameters; the JSON body carries every form
+  // field for completeness. On success the existing thank-you state shows;
+  // on failure the visitor gets a call-us fallback instead of a dead end.
+  var LEAD_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/f7IK70SRPnTvfqmfR4V1/webhook-trigger/7db24c31-2341-4b96-9dec-7b26b06791aa';
+
   document.querySelectorAll('.estimate-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var nameField = form.querySelector('[name="name"]');
-      var first = '';
-      if (nameField && nameField.value.trim()) {
-        first = nameField.value.trim().split(' ')[0];
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
       }
-      var success = form.parentElement.querySelector('.form-success');
-      form.style.display = 'none';
-      if (success) {
-        var slot = success.querySelector('[data-first-name]');
-        if (slot && first) slot.textContent = ', ' + first;
-        success.hidden = false;
-        success.setAttribute('tabindex', '-1');
-        success.focus({ preventScroll: false });
+
+      var get = function (n) {
+        var f = form.querySelector('[name="' + n + '"]');
+        return f ? f.value.trim() : '';
+      };
+      var fullName = get('name');
+      var nameParts = fullName ? fullName.split(/\s+/) : [];
+      var firstName = nameParts.length ? nameParts[0] : '';
+      var lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+      var consent = form.querySelector('[name="sms-consent"]');
+
+      var payload = {
+        first_name: firstName,
+        last_name: lastName,
+        name: fullName,
+        phone: get('phone'),
+        email: get('email'),
+        service: get('service'),
+        message: get('details'),
+        details: get('details'),
+        address: get('address'),
+        sms_consent: consent && consent.checked ? 'yes' : 'no',
+        source_page: window.location.pathname
+      };
+      var photo = form.querySelector('[name="yard-photo"]');
+      if (photo && photo.files && photo.files.length) {
+        payload.yard_photo_name = photo.files[0].name;
       }
+
+      var qs = new URLSearchParams({
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        phone: payload.phone,
+        email: payload.email
+      }).toString();
+
+      var button = form.querySelector('button[type="submit"]');
+      var errorBox = form.parentElement.querySelector('.form-error');
+      if (errorBox) errorBox.hidden = true;
+      if (button) {
+        button.disabled = true;
+        if (!button.dataset.label) button.dataset.label = button.textContent;
+        button.textContent = 'Sending...';
+      }
+
+      fetch(LEAD_WEBHOOK_URL + '?' + qs, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        if (!res.ok) throw new Error('webhook status ' + res.status);
+        var success = form.parentElement.querySelector('.form-success');
+        form.style.display = 'none';
+        if (success) {
+          var slot = success.querySelector('[data-first-name]');
+          if (slot && firstName) slot.textContent = ', ' + firstName;
+          success.hidden = false;
+          success.setAttribute('tabindex', '-1');
+          success.focus({ preventScroll: false });
+        }
+      }).catch(function () {
+        if (button) {
+          button.disabled = false;
+          button.textContent = button.dataset.label || 'Get My Free Estimate';
+        }
+        if (errorBox) {
+          errorBox.hidden = false;
+          errorBox.setAttribute('tabindex', '-1');
+          errorBox.focus({ preventScroll: false });
+        }
+      });
     });
   });
 

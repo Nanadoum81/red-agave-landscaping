@@ -83,6 +83,9 @@ p{margin:0 0 1em}
 .consent input{width:19px;height:19px;margin-top:2px;flex:none;accent-color:var(--green-800)}
 .form-success{background:var(--sand-soft);border:2px solid var(--green-700);border-radius:14px;padding:24px;text-align:center}
 .form-success h3{color:var(--green-800)}
+.form-error{background:#fdf1ef;border:2px solid #b3402f;border-radius:14px;padding:24px;text-align:center;margin-top:16px}
+.form-error h3{color:#8c2f22}
+.form-error a{font-weight:700;white-space:nowrap}
 
 /* Trust bar */
 .trustbar{background:var(--green-900);color:var(--sand)}
