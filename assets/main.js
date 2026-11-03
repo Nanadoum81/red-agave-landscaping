@@ -125,7 +125,7 @@
     var raTargets = document.querySelectorAll(
       '.section-head, .hero-form-card, .page-hero-in, .trustbar-in, ' +
       '.card, .value, .step, .ba-pair, .gallery-grid figure, ' +
-      '.svc, .split > *, .faq details, .booking-note'
+      '.svc, .split > *, .faq details, .booking-note, .ss-card'
     );
     var raCounts = new Map();
     raTargets.forEach(function (el) {

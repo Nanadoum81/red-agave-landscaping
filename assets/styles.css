@@ -462,3 +462,23 @@ p{margin:0 0 1em}
   .footer-brand .brand-logo{height:44px}
   .footer-bottom-logo img{height:50px}
 }
+
+/* ============================================================
+   Footer social placement pass 2026-11-02e (Emmanuel): the
+   Instagram + Facebook icons move OUT of the full-width row
+   under the footer and INTO the bottom middle of the footer
+   columns — centered under the seam between the EXPLORE and
+   POPULAR SERVICES columns. Colors unchanged from the
+   2026-11-02 color pass: orange at rest, white on hover.
+   The old .footer-social-row rules above are now unused.
+   ============================================================ */
+.footer-social-cell{display:flex;justify-content:center;margin-top:6px}
+@media (min-width:1021px){
+  .footer-social-cell{grid-column:2/4}
+}
+@media (max-width:1020px){
+  .footer-social-cell{grid-column:1/-1}
+}
+.site-footer .footer-in > .footer-social-cell{border-left:none;padding-left:0}
+.footer-social a{background:var(--terra);border-color:var(--terra);color:#fff}
+.footer-social a:hover,.footer-social a:focus-visible{background:#fff;border-color:#fff;color:var(--terra)}
