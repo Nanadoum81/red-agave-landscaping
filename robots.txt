@@ -38,4 +38,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://red-agavelandscaping.vercel.app/sitemap.xml
+Sitemap: https://redagavelandscapingaz.com/sitemap.xml

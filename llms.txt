@@ -8,7 +8,7 @@
 - Email: red.agave.land@gmail.com
 - Address: 1217 E Almeria Rd, Phoenix, AZ
 - Hours: Monday to Friday, 7:00 AM to 4:00 PM
-- Book a free on-site estimate: https://red-agavelandscaping.vercel.app/book.html
+- Book a free on-site estimate: https://redagavelandscapingaz.com/book.html
 
 ## Services
 
@@ -35,11 +35,11 @@ Phoenix, Ahwatukee, Chandler, Paradise Valley, Peoria, Glendale, Surprise, and A
 
 ## Pages
 
-- [Home](https://red-agavelandscaping.vercel.app/): overview, before-and-after sliders of real projects, and answers to common questions
-- [Services](https://red-agavelandscaping.vercel.app/services.html): the eight services in detail
-- [Gallery](https://red-agavelandscaping.vercel.app/gallery.html): real Red Agave project photos
-- [About Jose](https://red-agavelandscaping.vercel.app/about.html): how the company works and why it started
-- [Book a Free On-Site Estimate](https://red-agavelandscaping.vercel.app/book.html): booking calendar and estimate form
+- [Home](https://redagavelandscapingaz.com/): overview, before-and-after sliders of real projects, and answers to common questions
+- [Services](https://redagavelandscapingaz.com/services.html): the eight services in detail
+- [Gallery](https://redagavelandscapingaz.com/gallery.html): real Red Agave project photos
+- [About Jose](https://redagavelandscapingaz.com/about.html): how the company works and why it started
+- [Book a Free On-Site Estimate](https://redagavelandscapingaz.com/book.html): booking calendar and estimate form
 
 ## Social
 
