@@ -454,8 +454,6 @@ p{margin:0 0 1em}
 .header-in{gap:20px}
 .header-cta{padding:12px 22px;font-size:.95rem}
 .footer-brand .brand-logo{height:52px}
-.footer-bottom-logo{display:flex;justify-content:center;padding:2px 0 14px}
-.footer-bottom-logo img{height:58px;width:auto;display:block}
 @media (max-width:1100px){
   .brand-logo{height:52px}
   .brand-name{font-size:1.28rem}
@@ -467,7 +465,6 @@ p{margin:0 0 1em}
   .brand-name{font-size:1.2rem}
   .brand-sub{font-size:.57rem;letter-spacing:.12em}
   .footer-brand .brand-logo{height:44px}
-  .footer-bottom-logo img{height:50px}
 }
 
 /* ============================================================
