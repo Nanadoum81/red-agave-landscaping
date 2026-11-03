@@ -482,3 +482,20 @@ p{margin:0 0 1em}
 .site-footer .footer-in > .footer-social-cell{border-left:none;padding-left:0}
 .footer-social a{background:var(--terra);border-color:var(--terra);color:#fff}
 .footer-social a:hover,.footer-social a:focus-visible{background:#fff;border-color:#fff;color:var(--terra)}
+
+/* ============================================================
+   Header spread pass 2026-11-03 (Emmanuel): the brand icon
+   moves to the far LEFT edge of the nav bar and the bar
+   stretches full-width so the logo, links, and CTA stop
+   looking congested in the middle. The logo itself is NOT
+   stretched or resized — same 58px emblem, just repositioned.
+   ============================================================ */
+.site-header .wrap{max-width:1500px;padding-left:16px;padding-right:16px}
+.header-in{gap:34px}
+@media (min-width:1101px){
+  .main-nav ul{gap:36px}
+}
+@media (max-width:760px){
+  .site-header .wrap{padding-left:12px;padding-right:12px}
+  .header-in{gap:16px}
+}
