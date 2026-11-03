@@ -208,6 +208,202 @@
     }
   });
 
+  // Gallery grid balance 2026-11-03: if a photo grid's count
+  // leaves a lone orphan on its last row (count % columns == 1),
+  // flag it so CSS turns the final tile into a full-width
+  // feature tile and the grid ends evenly.
+  var raGridBalance = function (grid, cols) {
+    if (!grid) return;
+    var n = grid.children.length;
+    if (n > cols && n % cols === 1) grid.classList.add('grid-feature-last');
+  };
+  raGridBalance(document.querySelector('.gallery-grid'), 3);
+  raGridBalance(document.querySelector('.project-grid'), 2);
+
+  // Photo lightbox 2026-11-03 (Emmanuel): clicking any content
+  // photo opens a full-size view with caption, prev/next,
+  // keyboard and swipe navigation. Excluded on purpose: the
+  // before/after drag sliders (own drag interaction), hero
+  // imagery, logos/brand lockups, and header/footer imagery.
+  var raLbSelector =
+    '.gallery-grid figure img, .ba-pair figure img, .ss-frame img, ' +
+    '.card img, .split img, .svc-media img';
+  var raLbImgs = [];
+  document.querySelectorAll(raLbSelector).forEach(function (img) {
+    if (img.closest('[data-ba-slider]')) return;
+    if (img.closest('.hero, .page-hero, .site-header, .site-footer')) return;
+    if (img.classList.contains('brand-logo')) return;
+    var src = img.getAttribute('src') || '';
+    if (/logo-(official|profile)/.test(src)) return;
+    if (raLbImgs.indexOf(img) !== -1) return;
+    raLbImgs.push(img);
+  });
+
+  if (raLbImgs.length) {
+    // "Tap to enlarge" hint on the gallery page only
+    var raGalleryGrid = document.querySelector('.gallery-grid');
+    if (raGalleryGrid && document.querySelector('.project-grid')) {
+      var hint = document.createElement('p');
+      hint.className = 'lb-hint';
+      hint.textContent = 'Tap any photo to see it full size — use the arrows to browse.';
+      raGalleryGrid.parentNode.insertBefore(hint, raGalleryGrid);
+    }
+
+    var raLbCaptionFor = function (img) {
+      var fig = img.closest('figure');
+      if (fig) {
+        var cap = fig.querySelector('figcaption');
+        if (cap && cap.textContent.trim()) return cap.textContent.trim();
+      }
+      var pair = img.closest('.ba-pair');
+      if (pair) {
+        var baCap = pair.querySelector('.ba-caption');
+        if (baCap && baCap.textContent.trim()) return baCap.textContent.trim();
+      }
+      var card = img.closest('.card');
+      if (card) {
+        var h = card.querySelector('h3');
+        if (h && h.textContent.trim()) return h.textContent.trim();
+      }
+      return (img.getAttribute('alt') || '').trim();
+    };
+
+    var raLbItems = raLbImgs.map(function (img) {
+      return {
+        el: img,
+        src: img.currentSrc || img.src,
+        alt: img.getAttribute('alt') || '',
+        caption: raLbCaptionFor(img)
+      };
+    });
+
+    var lb = document.createElement('div');
+    lb.className = 'ra-lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo viewer');
+    lb.hidden = true;
+    lb.innerHTML =
+      '<figure class="ra-lb-figure">' +
+      '<img class="ra-lb-img" src="" alt="">' +
+      '<figcaption class="ra-lb-caption"></figcaption>' +
+      '<span class="ra-lb-counter" aria-hidden="true"></span>' +
+      '</figure>' +
+      '<button type="button" class="ra-lb-btn ra-lb-close" aria-label="Close photo viewer">&times;</button>' +
+      '<button type="button" class="ra-lb-btn ra-lb-prev" aria-label="Previous photo">&#8249;</button>' +
+      '<button type="button" class="ra-lb-btn ra-lb-next" aria-label="Next photo">&#8250;</button>';
+    document.body.appendChild(lb);
+
+    var lbImg = lb.querySelector('.ra-lb-img');
+    var lbCap = lb.querySelector('.ra-lb-caption');
+    var lbCount = lb.querySelector('.ra-lb-counter');
+    var lbClose = lb.querySelector('.ra-lb-close');
+    var lbPrev = lb.querySelector('.ra-lb-prev');
+    var lbNext = lb.querySelector('.ra-lb-next');
+    var lbIndex = 0;
+    var lbReturnFocus = null;
+    var lbOpen = false;
+
+    var raLbShow = function (i) {
+      lbIndex = (i + raLbItems.length) % raLbItems.length;
+      var item = raLbItems[lbIndex];
+      lbImg.src = item.src;
+      lbImg.alt = item.alt;
+      lbCap.textContent = item.caption || item.alt;
+      lbCap.style.display = (item.caption || item.alt) ? '' : 'none';
+      var multi = raLbItems.length > 1;
+      lbPrev.style.display = multi ? '' : 'none';
+      lbNext.style.display = multi ? '' : 'none';
+      lbCount.textContent = multi ? (lbIndex + 1) + ' / ' + raLbItems.length : '';
+    };
+
+    var raLbOpenFn = function (i, sourceEl) {
+      lbReturnFocus = sourceEl || raLbItems[i].el;
+      raLbShow(i);
+      lb.hidden = false;
+      lbOpen = true;
+      document.body.classList.add('ra-lb-open');
+      // Force a frame so the fade-in transition runs
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { lb.classList.add('ra-lb-show'); });
+      });
+      lbClose.focus({ preventScroll: true });
+    };
+
+    var raLbCloseFn = function () {
+      lb.classList.remove('ra-lb-show');
+      lb.hidden = true;
+      lbOpen = false;
+      document.body.classList.remove('ra-lb-open');
+      if (lbReturnFocus && document.contains(lbReturnFocus)) {
+        lbReturnFocus.focus({ preventScroll: true });
+      }
+      lbReturnFocus = null;
+    };
+
+    raLbItems.forEach(function (item, i) {
+      item.el.classList.add('ra-lb-target');
+      item.el.setAttribute('tabindex', '0');
+      item.el.setAttribute('role', 'button');
+      item.el.setAttribute('aria-label',
+        'Enlarge photo: ' + (item.caption || item.alt || 'project photo'));
+      item.el.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        raLbOpenFn(i, item.el);
+      });
+      item.el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          raLbOpenFn(i, item.el);
+        }
+      });
+    });
+
+    lbClose.addEventListener('click', raLbCloseFn);
+    lbPrev.addEventListener('click', function () { raLbShow(lbIndex - 1); });
+    lbNext.addEventListener('click', function () { raLbShow(lbIndex + 1); });
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb || e.target.classList.contains('ra-lb-figure')) raLbCloseFn();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lbOpen) return;
+      if (e.key === 'Escape') { raLbCloseFn(); return; }
+      if (e.key === 'ArrowLeft') { raLbShow(lbIndex - 1); return; }
+      if (e.key === 'ArrowRight') { raLbShow(lbIndex + 1); return; }
+      if (e.key === 'Tab') {
+        // Simple focus trap: cycle close / prev / next
+        var focusables = [lbClose, lbPrev, lbNext].filter(function (b) {
+          return b.style.display !== 'none';
+        });
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
+        } else if (focusables.indexOf(document.activeElement) === -1) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
+
+    // Touch swipe left/right to navigate
+    var lbTouchX = null;
+    lb.addEventListener('touchstart', function (e) {
+      if (e.changedTouches.length) lbTouchX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      if (lbTouchX === null || !e.changedTouches.length) return;
+      var dx = e.changedTouches[0].clientX - lbTouchX;
+      lbTouchX = null;
+      if (Math.abs(dx) < 42) return;
+      raLbShow(dx < 0 ? lbIndex + 1 : lbIndex - 1);
+    }, { passive: true });
+  }
+
   // Footer year
   var year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
